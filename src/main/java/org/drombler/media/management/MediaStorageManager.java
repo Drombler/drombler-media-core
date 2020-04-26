@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,7 +56,7 @@ public class MediaStorageManager {
 
     private MediaStorage createMediaStorage(MediaStorageConfiguration configuration) {
         List<MediaCategory> supportedMediaCategories = getSupportedMediaCategories(configuration);
-        return new MediaStorage(configuration.getId(), configuration.getName(), Path.of(configuration.getMediaRootDir()), supportedMediaCategories);
+        return new MediaStorage(configuration.getId(), configuration.getName(), Paths.get(configuration.getMediaRootDir()), supportedMediaCategories);
     }
 
     private List<MediaCategory> getSupportedMediaCategories(MediaStorageConfiguration configuration) {
