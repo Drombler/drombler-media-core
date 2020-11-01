@@ -1,5 +1,16 @@
 package org.drombler.media.core;
 
+import lombok.Getter;
+import org.drombler.event.core.Event;
+import org.drombler.event.core.format.EventDirNameFormatter;
+import org.drombler.event.core.format.EventDirNameParser;
+import org.drombler.identity.core.DromblerId;
+import org.drombler.identity.core.DromblerUserId;
+import org.drombler.identity.management.DromblerIdentityProviderManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.softsmithy.lib.text.FormatException;
+
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -12,16 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-import org.drombler.event.core.Event;
-import org.drombler.event.core.format.EventDirNameFormatter;
-import org.drombler.event.core.format.EventDirNameParser;
-import org.drombler.identity.core.DromblerId;
-import org.drombler.identity.core.DromblerUserId;
-import org.drombler.identity.management.DromblerIdentityProviderManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.softsmithy.lib.text.FormatException;
 
+@Getter
 public class MediaStorage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MediaStorage.class);
@@ -70,26 +73,15 @@ public class MediaStorage {
                     .map(MediaCategory::getVariants)
                     .flatMap(Collection::stream)
                     .flatMap(variant -> Stream.concat(
-                    variant.getFileExtensions().stream(),
-                    variant.getSupplementVariants().stream()
-                            .map(MediaCategoryVariant::getFileExtensions) // TODO: support deep recursion? needed?
-                            .flatMap(Collection::stream)))
+                            variant.getFileExtensions().stream(),
+                            variant.getSupplementVariants().stream()
+                                    .map(MediaCategoryVariant::getFileExtensions) // TODO: support deep recursion? needed?
+                                    .flatMap(Collection::stream)))
                     .anyMatch(supportedFileExtension -> supportedFileExtension.equals(fileExtension));
         } else {
             return false;
         }
 
-    }
-
-    /**
-     * @return the mediaRootDir
-     */
-    public Path getMediaRootDir() {
-        return mediaRootDir;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public Path getUncategorizedMediaRootDir() {
@@ -196,7 +188,4 @@ public class MediaStorage {
         return new MediaSource(this, mediaFileName);
     }
 
-    public List<MediaCategory> getSupportedMediaCategories() {
-        return supportedMediaCategories;
-    }
 }
