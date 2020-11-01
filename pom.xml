@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.drombler</groupId>
         <artifactId>drombler-oss-parent</artifactId>
-        <version>3.3.1</version>
-        <relativePath />
+        <version>3.4.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
     <groupId>org.drombler.media</groupId>
     <artifactId>drombler-media-core</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
-    
+
     <inceptionYear>2020</inceptionYear>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -25,7 +26,8 @@
                 <groupId>org.jsonschema2pojo</groupId>
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                 <configuration>
-                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/media/management/config/model/json</sourceDirectory>
+                    <sourceDirectory>${basedir}/src/main/resources/org/drombler/media/management/config/model/json
+                    </sourceDirectory>
                     <targetPackage>org.drombler.media.management.config.model.json</targetPackage>
                     <dateType>java.time.LocalDate</dateType>
                 </configuration>
@@ -40,8 +42,22 @@
             </plugin>
         </plugins>
     </build>
-    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.16</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.drombler.identity</groupId>
             <artifactId>drombler-identity-core</artifactId>
@@ -52,12 +68,12 @@
             <artifactId>drombler-event-core</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>org.softsmithy.lib</groupId>
             <artifactId>softsmithy-lib-core</artifactId>
