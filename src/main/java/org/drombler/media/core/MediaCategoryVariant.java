@@ -1,17 +1,14 @@
 package org.drombler.media.core;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import lombok.Getter;
+
+import java.util.*;
 
 /**
  *
  * @author Florian
  */
-
-
+@Getter
 public final class MediaCategoryVariant {
 
     private final Set<String> mimeTypes;
@@ -26,19 +23,5 @@ public final class MediaCategoryVariant {
         this.fileExtensions = Collections.unmodifiableSet(new HashSet<>(fileExtensions));
         this.supplementVariants = Collections.unmodifiableList(new ArrayList<>(supplementVariants));
     }
-
-    public Set<String> getMimeTypes() {
-        return mimeTypes;
-    }
-
-    public Set<String> getFileExtensions() {
-        return fileExtensions;
-    }
-
-    public List<MediaCategoryVariant> getSupplementVariants() {
-        return supplementVariants;
-    }
-    
-    
     
 }

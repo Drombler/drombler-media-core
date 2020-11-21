@@ -1,17 +1,24 @@
 package org.drombler.media.core;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 /**
- *
  * @author Florian
  */
 // not used yet
+@Getter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(onlyExplicitlyIncluded = true)
 public final class MediaCategory {
 
+    @ToString.Include
+    @EqualsAndHashCode.Include
     private final String id;
 
     private final List<MediaCategoryVariant> variants;
@@ -21,35 +28,4 @@ public final class MediaCategory {
         this.variants = Collections.unmodifiableList(new ArrayList<>(variants));
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public List<MediaCategoryVariant> getVariants() {
-        return variants;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof MediaCategory)) {
-            return false;
-        }
-        MediaCategory other = (MediaCategory) obj;
-        return Objects.equals(this.id, other.id);
-    }
-
-    @Override
-    public String toString() {
-        return "MediaCategory{" + "id=" + id + '}';
-    }
 }

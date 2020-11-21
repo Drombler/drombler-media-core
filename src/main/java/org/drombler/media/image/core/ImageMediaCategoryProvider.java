@@ -1,11 +1,13 @@
 package org.drombler.media.image.core;
 
-import java.util.Arrays;
-import static java.util.Arrays.asList;
-import java.util.HashSet;
 import org.drombler.media.core.MediaCategory;
 import org.drombler.media.core.MediaCategoryProvider;
 import org.drombler.media.core.MediaCategoryVariant;
+
+import java.util.Arrays;
+import java.util.HashSet;
+
+import static java.util.Arrays.asList;
 
 /**
  *
