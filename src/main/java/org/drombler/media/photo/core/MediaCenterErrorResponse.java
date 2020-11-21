@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class PhotoCenterErrorResponse {
-    private final PhotoCenterErrorCode errorCode;
+public class MediaCenterErrorResponse {
+    private final MediaCenterErrorCode errorCode;
     private final String errorMessage;
 }
