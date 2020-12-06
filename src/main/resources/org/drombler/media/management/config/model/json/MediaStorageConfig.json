@@ -26,10 +26,20 @@
                         "type": "string",
                         "title": "The path of the media storage"
                     },
-                    "private": {
-                        "$id": "/properties/mediaStorageConfigurations/items/properties/private",
+                    "type": {
+                        "$id": "/properties/mediaStorageConfigurations/items/properties/type",
+                        "type": "string",
+                        "title": "The media storage type",
+                        "default": "",
+                        "examples": [
+                            "",
+                            "PRIVATE_EVENTS"
+                        ]
+                    },
+                    "legacyEventDirNames": {
+                        "$id": "/properties/mediaStorageConfigurations/items/properties/type",
                         "type": "boolean",
-                        "title": "Flag if the media storage is private",
+                        "title": "Flag if some event dir names in this media storage don't have the required prefix",
                         "default": false,
                         "examples": [
                             true
