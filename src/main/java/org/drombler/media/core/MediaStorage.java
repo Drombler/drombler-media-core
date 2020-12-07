@@ -120,7 +120,7 @@ public class MediaStorage {
                 String eventDirName = matcher.group(2);
                 if (parsedType.isPresent()
                         && (type.equals(parsedType.get()) ||
-                        (parsedType.get().equals(MediaStorageType.OWNER_EVENTS) && legacyEventDirNames))) {
+                        (parsedType.get().equals(MediaStorageType.SHARED_EVENTS) && legacyEventDirNames))) {
                     try {
                         return Optional.of(parseEvent(eventDirName));
                     } catch (ParseException ex) {

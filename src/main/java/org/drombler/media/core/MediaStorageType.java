@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum MediaStorageType {
-    OWNER_EVENTS(""),
+    SHARED_EVENTS(""),
     PRIVATE_EVENTS("P-"),
     OTHER_EVENTS("A-"), // Andere
     BUSINESS_EVENTS("G-"),  // Geschäft
