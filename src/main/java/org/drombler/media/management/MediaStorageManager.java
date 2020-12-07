@@ -1,6 +1,15 @@
 package org.drombler.media.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.drombler.media.core.MediaCategory;
+import org.drombler.media.core.MediaCategoryManager;
+import org.drombler.media.core.MediaStorage;
+import org.drombler.media.core.MediaStorageType;
+import org.drombler.media.management.config.model.json.MediaStorageConfig;
+import org.drombler.media.management.config.model.json.MediaStorageConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -8,13 +17,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.drombler.media.core.MediaCategory;
-import org.drombler.media.core.MediaCategoryManager;
-import org.drombler.media.core.MediaStorage;
-import org.drombler.media.management.config.model.json.MediaStorageConfig;
-import org.drombler.media.management.config.model.json.MediaStorageConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -56,7 +58,8 @@ public class MediaStorageManager {
 
     private MediaStorage createMediaStorage(MediaStorageConfiguration configuration) {
         List<MediaCategory> supportedMediaCategories = getSupportedMediaCategories(configuration);
-        return new MediaStorage(configuration.getId(), configuration.getName(), Paths.get(configuration.getMediaRootDir()), supportedMediaCategories);
+        MediaStorageType type = MediaStorageType.valueOf(configuration.getType());
+        return new MediaStorage(configuration.getId(), configuration.getName(), Paths.get(configuration.getMediaRootDir()), type, configuration.getLegacyEventDirNames(), supportedMediaCategories);
     }
 
     private List<MediaCategory> getSupportedMediaCategories(MediaStorageConfiguration configuration) {
