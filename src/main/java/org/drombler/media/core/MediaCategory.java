@@ -3,6 +3,7 @@ package org.drombler.media.core;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.drombler.media.core.protocol.json.MediaCategoryType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +20,12 @@ public final class MediaCategory {
 
     @ToString.Include
     @EqualsAndHashCode.Include
-    private final String id;
+    private final MediaCategoryType type;
 
     private final List<MediaCategoryVariant> variants;
 
-    public MediaCategory(String id, List<MediaCategoryVariant> variants) {
-        this.id = id;
+    public MediaCategory(MediaCategoryType type, List<MediaCategoryVariant> variants) {
+        this.type = type;
         this.variants = Collections.unmodifiableList(new ArrayList<>(variants));
     }
 

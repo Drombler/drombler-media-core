@@ -30,22 +30,25 @@ public class MediaStorage {
     private static final String UNCATEGORIZED_DIR_NAME = "uncategorized"; // used before imports (only?), e.g. D:/hd-writer-ae-tmp/video/uncategorized
     private static final Pattern DIR_PATTERN = Pattern.compile("^(\\w-)?+(.*)");
 
-    private final String id;
+    private final UUID id;
     private final String name;
     private final Path mediaRootDir;
-    private final MediaStorageType type;
+    private final Set<MediaStorageContentType> supportedContentTypes;
     private final boolean legacyEventDirNames;
     private final List<MediaCategory> supportedMediaCategories;
+    private final Set<DromblerId> owners;
 
-    public MediaStorage(String id, String name, Path mediaRootDir, MediaStorageType type, boolean legacyEventDirNames, List<MediaCategory> supportedMediaCategories) {
+    public MediaStorage(UUID id, String name, Path directoryPath, Set<MediaStorageContentType> supportedContentTypes, boolean legacyEventDirNames,
+                        List<MediaCategory> supportedMediaCategories, Set<DromblerId> owners) {
         this.id = id;
         this.name = name;
-        this.mediaRootDir = mediaRootDir;
-        this.type = type;
+        this.mediaRootDir = directoryPath;
+        this.supportedContentTypes = Collections.unmodifiableSet(EnumSet.copyOf(supportedContentTypes));
         this.legacyEventDirNames = legacyEventDirNames;
         this.supportedMediaCategories = Collections.unmodifiableList(new ArrayList<>(supportedMediaCategories));
-        if (!Files.exists(mediaRootDir) || !Files.isDirectory(mediaRootDir)) {
-            throw new IllegalArgumentException("Not a valid directory: " + mediaRootDir);
+        this.owners = Collections.unmodifiableSet(new HashSet<>(owners));
+        if (!Files.exists(directoryPath) || !Files.isDirectory(directoryPath)) {
+            throw new IllegalArgumentException("Not a valid directory: " + directoryPath);
         }
     }
 
@@ -61,7 +64,10 @@ public class MediaStorage {
 
     private StringBuilder formatEventDirName(Event event) throws FormatException {
         EventDirNameFormatter formatter = new EventDirNameFormatter();
-        StringBuilder sb = new StringBuilder(type.getPrefix());
+        StringBuilder sb = new StringBuilder();
+        if (supportedContentTypes.size() == 1) {
+            sb.append(supportedContentTypes.iterator().next().getPrefix());
+        }
         formatter.format(event, sb);
         return sb;
     }
@@ -116,11 +122,11 @@ public class MediaStorage {
         if (Files.isDirectory(eventDirPath)) {
             Matcher matcher = DIR_PATTERN.matcher(eventDirPath.getFileName().toString());
             if (matcher.find()) {
-                Optional<MediaStorageType> parsedType = parseType(matcher);
+                Optional<MediaStorageContentType> parsedType = parseType(matcher);
                 String eventDirName = matcher.group(2);
                 if (parsedType.isPresent()
-                        && (type.equals(parsedType.get()) ||
-                        (parsedType.get().equals(MediaStorageType.SHARED_EVENTS) && legacyEventDirNames))) {
+                        && (supportedContentTypes.contains(parsedType.get()) ||
+                        (parsedType.get().equals(MediaStorageContentType.SHARED_EVENTS) && legacyEventDirNames))) {
                     try {
                         return Optional.of(parseEvent(eventDirName));
                     } catch (ParseException ex) {
@@ -138,10 +144,10 @@ public class MediaStorage {
         return Optional.empty();
     }
 
-    private Optional<MediaStorageType> parseType(Matcher matcher) {
+    private Optional<MediaStorageContentType> parseType(Matcher matcher) {
         String prefix = StringUtils.stripToEmpty(matcher.group(1));
-        if (MediaStorageType.isKnownPrefix(prefix)) {
-            return Optional.of(MediaStorageType.getByPrefix(prefix));
+        if (MediaStorageContentType.isKnownPrefix(prefix)) {
+            return Optional.of(MediaStorageContentType.getByPrefix(prefix));
         } else {
             return Optional.empty();
         }
